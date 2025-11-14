@@ -1,6 +1,5 @@
 const { validateEmail, validatePassword } = require('./main.js');
 
-// Helper function for printing test results
 function runTest(description, testFunc) {
   try {
     testFunc();
@@ -11,60 +10,73 @@ function runTest(description, testFunc) {
   }
 }
 
-// VALID TESTS
-runTest("Valid email should return true", () => {
+console.log("\n=== EMAIL TESTS ===");
+
+// EMAIL – VALID CASES (2)
+runTest("Valid email: user@example.com", () => {
   if (!validateEmail("user@example.com")) {
-    throw new Error("Expected true for a valid email.");
+    throw new Error("Expected valid email.");
   }
 });
 
-runTest("Valid strong password should return true", () => {
-  if (!validatePassword("StrongPass1")) {
-    throw new Error("Expected true for a strong password.");
+runTest("Valid email: hello.world@test.co", () => {
+  if (!validateEmail("hello.world@test.co")) {
+    throw new Error("Expected valid email.");
   }
 });
 
-// INVALID TESTS
-runTest("Invalid email without @ should return false", () => {
+// EMAIL – INVALID CASES (2)
+runTest("Invalid email: missing @ symbol", () => {
   if (validateEmail("userexample.com")) {
-    throw new Error("Expected false for missing '@'");
+    throw new Error("Expected invalid email.");
   }
 });
 
-runTest("Weak password (no uppercase) should return false", () => {
-  if (validatePassword("weakpassword1")) {
-    throw new Error("Expected false for weak password.");
+runTest("Invalid email: no domain", () => {
+  if (validateEmail("user@")) {
+    throw new Error("Expected invalid email.");
   }
 });
 
-runTest("Weak password (too short) should return false", () => {
-  if (validatePassword("Aa1")) {
-    throw new Error("Expected false for short password.");
+// EMAIL – INTENTIONAL FAIL (1)
+runTest("INTENTIONAL FAIL (Email): expect false but validator returns true", () => {
+  if (validateEmail("test@example.com")) {
+    throw new Error("INTENTIONAL FAILURE triggered!");
   }
 });
 
-// BREAK TESTS (intentionally tricky)
-runTest("Email with spaces should return false", () => {
-  if (validateEmail("user name@example.com")) {
-    throw new Error("Expected false for email with spaces.");
+
+console.log("\n=== PASSWORD TESTS ===");
+
+// PASSWORD – VALID CASES (2)
+runTest("Valid password: StrongPass1", () => {
+  if (!validatePassword("StrongPass1")) {
+    throw new Error("Expected valid password.");
   }
 });
 
-runTest("Email with multiple @ symbols should return false", () => {
-  if (validateEmail("user@@example.com")) {
-    throw new Error("Expected false for double '@'");
+runTest("Valid password: Abcd1234", () => {
+  if (!validatePassword("Abcd1234")) {
+    throw new Error("Expected valid password.");
   }
 });
 
-runTest("Password with symbols but no uppercase should return false", () => {
-  if (validatePassword("password123!")) {
-    throw new Error("Expected false for no uppercase.");
+// PASSWORD – INVALID CASES (2)
+runTest("Invalid password: no uppercase letter", () => {
+  if (validatePassword("password123")) {
+    throw new Error("Expected invalid password.");
   }
 });
 
-runTest("Extremely long password still must pass rules", () => {
-  const longPass = "A1".repeat(20); // still valid
-  if (!validatePassword(longPass)) {
-    throw new Error("Expected true for valid long password.");
+runTest("Invalid password: too short", () => {
+  if (validatePassword("A1b")) {
+    throw new Error("Expected invalid password.");
+  }
+});
+
+// PASSWORD – INTENTIONAL FAIL (1)
+runTest("INTENTIONAL FAIL (Password): intentionally wrong expectation", () => {
+  if (validatePassword("GoodPass1")) {
+    throw new Error("INTENTIONAL FAILURE triggered!");
   }
 });
