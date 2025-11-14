@@ -10,6 +10,12 @@ function runTest(description, testFunc) {
   }
 }
 
+//
+// =======================
+//      EMAIL TESTS
+// =======================
+//
+
 console.log("\n=== EMAIL TESTS ===");
 
 // EMAIL – VALID CASES (2)
@@ -46,6 +52,12 @@ runTest("INTENTIONAL FAIL (Email): expect false but validator returns true", () 
 });
 
 
+//
+// =======================
+//    PASSWORD TESTS
+// =======================
+//
+
 console.log("\n=== PASSWORD TESTS ===");
 
 // PASSWORD – VALID CASES (2)
@@ -74,9 +86,9 @@ runTest("Invalid password: too short", () => {
   }
 });
 
-// PASSWORD – INTENTIONAL FAIL (1)
-runTest("INTENTIONAL FAIL (Password): intentionally wrong expectation", () => {
-  if (validatePassword("GoodPass1")) {
-    throw new Error("INTENTIONAL FAILURE triggered!");
+// PASSWORD – INTENTIONAL (BUT PASSING NOW)
+runTest("Additional valid password test to replace intentional fail", () => {
+  if (!validatePassword("GoodPass1")) {
+    throw new Error("Expected valid password.");
   }
 });
